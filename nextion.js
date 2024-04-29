@@ -17,6 +17,10 @@ function nextion(portstr, _log = null) {
 
     // create the required nextion delimiter
     nextion.tail = Buffer.from([0xff,0xff,0xff]);
+    
+    nextion.sendCmdStr = (cmdstr, out = serport) => {
+        nextion.sendCmd(Buffer.from(cmdstr), out);
+    };
 
     nextion.sendCmd = (command, out = serport) => {
         // combine to create the full nextion command
@@ -34,7 +38,7 @@ function nextion(portstr, _log = null) {
         const today = new Date();
         // correct for 0 = January
         const mon = today.getMonth() + 1;
-        const todCommands = [
+        const rtcCommands = [
             [Buffer.from('rtc0='),Buffer.from(today.getFullYear().toString())],     // year
             [Buffer.from('rtc1='),Buffer.from(mon.toString())],                     // mon
             [Buffer.from('rtc2='),Buffer.from(today.getDate().toString())],         // day
@@ -42,7 +46,7 @@ function nextion(portstr, _log = null) {
             [Buffer.from('rtc4='),Buffer.from(today.getMinutes().toString())],      // mins
             [Buffer.from('rtc5='),Buffer.from(today.getSeconds().toString())],      // secs
         ];
-        todCommands.forEach((cmd,idx) => {
+        rtcCommands.forEach((cmd,idx) => {
             const command = Buffer.concat([cmd[0], cmd[1]],cmd[0].length+cmd[1].length);
             nextion.sendCmd(command);
         });
