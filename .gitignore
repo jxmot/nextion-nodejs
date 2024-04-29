@@ -3,3 +3,4 @@ _counter.md
 *.session
 node_modules/*
 *.bak
+*.log
