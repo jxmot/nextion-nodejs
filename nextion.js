@@ -22,10 +22,11 @@ function nextion(portstr, _log = null) {
         // combine to create the full nextion command
         const output = Buffer.concat([command, nextion.tail],command.length+nextion.tail.length);
         // send it...
+        log('sending command - '+command.toString());
         out.write(output, function(err) {
             if(err) {
                 log('Error on write: ', err.message);
-            } else log('message written');
+            } //else log('message written');
         });
     };
 
