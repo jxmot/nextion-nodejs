@@ -1,4 +1,9 @@
-function nextion(portstr) {
+function nextion(portstr, _log = null) {
+    
+    const log = (msg) => {
+        if(_log !== null) _log(msg);
+    };
+    
     // for serial communications with the nextion...
     const SerialPort = require('serialport');
 
@@ -18,10 +23,9 @@ function nextion(portstr) {
         const output = Buffer.concat([command, nextion.tail],command.length+nextion.tail.length);
         // send it...
         out.write(output, function(err) {
-            if (err) {
-                return console.log('Error on write: ', err.message);
-            }
-            console.log('message written');
+            if(err) {
+                log('Error on write: ', err.message);
+            } else log('message written');
         });
     };
 
