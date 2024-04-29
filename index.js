@@ -7,7 +7,6 @@ function log(payload) {
     logOut.writeTS(`${scriptName} - ${payload}`);
 };
 
-
 const nextion = require ('./nextion.js')('COM4', log);
 nextion.updateRTC();
 
