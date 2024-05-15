@@ -15,12 +15,16 @@ const cfg = require('./wxsvc/cfg/wxsvc-cfg.js');
 const wsvc = require('./wxsvc/'+cfg.api);
 wsvc.init(evts, log);
 
+const icons = require('./wxicons.js');
+
 evts.on('WSVC_UPDATE', (m) => {
     log(`WSVC_UPDATE : ${JSON.stringify(m)}`);
     nextion.sendCmdStr(`currtemp.txt="${Math.round(m.temp)}"`);
     nextion.sendCmdStr(`currhum.txt="${Math.round(m.humd)}"`);
     nextion.sendCmdStr(`tstamp.txt="${m.text.tstamp}"`);
     nextion.sendCmdStr(`windmsg.txt="${m.text.wmsg}"`);
+    nextion.sendCmdStr(`condmsg.txt="${m.desc}"`);
+    nextion.sendCmdStr(`icon.pic=${icons.getIndex(m.icon)}`);
 });
 
 evts.on('WSVC_FORCST', (m) => {
